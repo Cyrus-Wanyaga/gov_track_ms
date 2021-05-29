@@ -13,12 +13,12 @@ import java.util.List;
 public interface PoliticianRepository extends JpaRepository<Politician, Integer> {
     @Query(value = "SELECT new com.cyrus.techsol.gov_track_ms.dto.PoliticianCountyDto(p.id, p.firstName, p.middleName, p.lastName, p.gender, l.position, " +
             "p.dateOfBirth, p.pictureUrl, p.active, c.countyName, c.countyCode)" +
-            "FROM Politician p INNER JOIN County c ON p.countyId=c.id INNER JOIN LeadershipPosition l ON l.id = p.currentLeadershipPosition WHERE p.id = ?1")
+            "FROM Politician p LEFT JOIN County c ON p.countyId=c.id LEFT JOIN LeadershipPosition l ON l.id = p.currentLeadershipPosition WHERE p.id = ?1")
     PoliticianCountyDto getPoliticianById(Integer id);
 
     @Query(value = "SELECT new com.cyrus.techsol.gov_track_ms.dto.PoliticianCountyDto(p.id, p.firstName, p.middleName, p.lastName, p.gender, l.position, " +
             "p.dateOfBirth, p.pictureUrl, p.active, c.countyName, c.countyCode)" +
-            "FROM Politician p INNER JOIN County c ON p.countyId=c.id INNER JOIN LeadershipPosition l ON l.id = p.currentLeadershipPosition")
+            "FROM Politician p LEFT JOIN County c ON p.countyId=c.id LEFT JOIN LeadershipPosition l ON l.id = p.currentLeadershipPosition")
     List<PoliticianCountyDto> getAllPoliticians();
 
     @Query(value = "SELECT new com.cyrus.techsol.gov_track_ms.dto.TopPositionsPoliticiansDto(p.id, p.firstName, p.middleName, p.lastName, p.gender, l.position, " +
@@ -29,7 +29,7 @@ public interface PoliticianRepository extends JpaRepository<Politician, Integer>
 
     @Query(value = "SELECT new com.cyrus.techsol.gov_track_ms.dto.PoliticianCountyDto(p.id, p.firstName, p.middleName, p.lastName, p.gender, l.position, " +
             "p.dateOfBirth, p.pictureUrl, p.active, c.countyName, c.countyCode)" +
-            "FROM Politician p INNER JOIN County c ON p.countyId=c.id INNER JOIN LeadershipPosition l ON l.id = p.currentLeadershipPosition WHERE c.countyName=?1")
+            "FROM Politician p LEFT JOIN County c ON p.countyId=c.id LEFT JOIN LeadershipPosition l ON l.id = p.currentLeadershipPosition WHERE c.countyName=?1")
     List<PoliticianCountyDto> getPoliticianByCounty(String countyName);
 
     @Query(value = "SELECT new com.cyrus.techsol.gov_track_ms.dto.PoliticianCountyDto(p.id, p.firstName, p.middleName, p.lastName, p.gender, l.position, " +

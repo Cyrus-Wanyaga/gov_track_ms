@@ -1,6 +1,7 @@
 package com.cyrus.techsol.gov_track_ms.controller;
 
 import com.cyrus.techsol.gov_track_ms.dto.PoliticianByPartyDto;
+import com.cyrus.techsol.gov_track_ms.dto.PoliticianCountyDto;
 import com.cyrus.techsol.gov_track_ms.dto.TermsServedDto;
 import com.cyrus.techsol.gov_track_ms.entities.TermsServed;
 import com.cyrus.techsol.gov_track_ms.service.TermsServedService;
@@ -25,6 +26,11 @@ public class TermsServedController {
         return termsServedService.findPoliticiansByParty(partyName);
     }
 
+    @GetMapping("/getPoliticiansByGeographicalAreaServed/{geographicalAreaId}")
+    private List<PoliticianCountyDto> getPoliticiansByGeographicalAreaServed(@PathVariable Integer geographicalAreaId){
+        return termsServedService.findPoliticiansByGeographicalAreaServed(geographicalAreaId);
+    }
+
     @PostMapping("/saveTerm")
     private TermsServed saveTerm(@RequestBody TermsServed termServed){
         return termsServedService.saveTermServed(termServed);
@@ -33,5 +39,15 @@ public class TermsServedController {
     @PostMapping("/saveTerms")
     private List<TermsServed> saveTerms(@RequestBody List<TermsServed> termsServed){
         return termsServedService.saveTerms(termsServed);
+    }
+
+    @PutMapping("/updateTerm")
+    private TermsServed updateTerm(@RequestBody TermsServed termServed){
+        return termsServedService.saveTermServed(termServed);
+    }
+
+    @DeleteMapping("/deleteTermById/{termId}")
+    private String deleteTerm(@PathVariable Integer termId){
+        return termsServedService.deleteTerm(termId);
     }
 }

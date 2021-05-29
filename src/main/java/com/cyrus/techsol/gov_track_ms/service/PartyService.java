@@ -15,4 +15,8 @@ public class PartyService {
     public List<Party> getAllParties(){
         return partyRepository.findAll();
     }
+
+    public Party saveParty(Party party){
+        return partyRepository.save(party);
+    }
 }

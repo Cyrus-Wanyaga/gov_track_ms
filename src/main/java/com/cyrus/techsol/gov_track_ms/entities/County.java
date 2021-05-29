@@ -15,6 +15,8 @@ public class County {
     private String countyName;
     @Column(name = "county_code")
     private Integer countyCode;
+    @Column(name = "county_logo")
+    private String countyLogoUrl;
 
     public County() {
 
@@ -42,5 +44,13 @@ public class County {
 
     public void setCountyCode(Integer countyCode) {
         this.countyCode = countyCode;
+    }
+
+    public String getCountyLogoUrl() {
+        return countyLogoUrl;
+    }
+
+    public void setCountyLogoUrl(String countyLogoUrl) {
+        this.countyLogoUrl = countyLogoUrl;
     }
 }

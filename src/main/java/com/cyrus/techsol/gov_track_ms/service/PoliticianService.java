@@ -6,6 +6,7 @@ import com.cyrus.techsol.gov_track_ms.dto.TermsServedDto;
 import com.cyrus.techsol.gov_track_ms.dto.TopPositionsPoliticiansDto;
 import com.cyrus.techsol.gov_track_ms.entities.Politician;
 import com.cyrus.techsol.gov_track_ms.repository.PoliticianRepository;
+import com.cyrus.techsol.gov_track_ms.utils.CalculateAge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,14 @@ public class PoliticianService {
     PoliticianRepository politicianRepository;
     @Autowired
     private TermsServedService termsServedService;
+    @Autowired
+    private CalculateAge calculateAge;
 
     public List<PoliticianCountyDto> getAllPoliticians() {
         List<PoliticianCountyDto> politicians = politicianRepository.getAllPoliticians();
 
         for (PoliticianCountyDto politician : politicians) {
-            politician.setAge(calculateAge(politician.getDateOfBirth()));
+            politician.setAge(calculateAge.getAge(politician.getDateOfBirth()));
         }
 
         return politicians;
@@ -32,7 +35,7 @@ public class PoliticianService {
 
     public PoliticianDto getPoliticianById(Integer id) {
         PoliticianCountyDto politicians = politicianRepository.getPoliticianById(id);
-        politicians.setAge(calculateAge(politicians.getDateOfBirth()));
+        politicians.setAge(calculateAge.getAge(politicians.getDateOfBirth()));
 
         List<TermsServedDto> termsServedList = termsServedService.findTermsByPoliticianId(id);
 
@@ -52,7 +55,7 @@ public class PoliticianService {
         List<PoliticianCountyDto> politicianCountyDtoList = politicianRepository.getPoliticianByCounty(county);
 
         for (PoliticianCountyDto politician : politicianCountyDtoList) {
-            politician.setAge(calculateAge(politician.getDateOfBirth()));
+            politician.setAge(calculateAge.getAge(politician.getDateOfBirth()));
         }
 
         return politicianCountyDtoList;
@@ -62,7 +65,7 @@ public class PoliticianService {
         List<PoliticianCountyDto> politicianCountyDtoList = politicianRepository.getPoliticianByLeadershipPosition(leadershipPosition);
 
         for (PoliticianCountyDto politician : politicianCountyDtoList) {
-            politician.setAge(calculateAge(politician.getDateOfBirth()));
+            politician.setAge(calculateAge.getAge(politician.getDateOfBirth()));
         }
 
         return politicianCountyDtoList;
@@ -71,7 +74,7 @@ public class PoliticianService {
     public List<TopPositionsPoliticiansDto> getTopPositionsPoliticians(){
         List<TopPositionsPoliticiansDto> topPositionsPoliticiansDtoList = politicianRepository.getTopPositions();
         for(TopPositionsPoliticiansDto topPositionsPoliticiansDto : topPositionsPoliticiansDtoList)
-            topPositionsPoliticiansDto.setAge(calculateAge(topPositionsPoliticiansDto.getDateOfBirth()));
+            topPositionsPoliticiansDto.setAge(calculateAge.getAge(topPositionsPoliticiansDto.getDateOfBirth()));
 
         return topPositionsPoliticiansDtoList;
     }
@@ -87,17 +90,5 @@ public class PoliticianService {
     public String deletePolitician(Integer id){
         politicianRepository.deleteById(id);
         return "Deleted successfully";
-    }
-
-    @NonNull
-    private String calculateAge(@NonNull Date dateOfBirth) {
-        Date date = new Date();
-        int currentYear = date.getYear();
-        int birthYear = dateOfBirth.getYear();
-        if (date.getMonth() < dateOfBirth.getMonth()) {
-            return Integer.toString((currentYear - birthYear) - 1);
-        } else {
-            return Integer.toString(currentYear - birthYear);
-        }
     }
 }

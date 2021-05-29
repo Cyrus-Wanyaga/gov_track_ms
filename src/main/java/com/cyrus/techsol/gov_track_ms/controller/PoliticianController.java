@@ -46,6 +46,11 @@ public class PoliticianController {
         return politicianService.savePolitician(politician);
     }
 
+    @PutMapping("/updatePolitician")
+    private Politician updatePolitician(@RequestBody Politician politician) {
+        return politicianService.savePolitician(politician);
+    }
+
     @PostMapping("savePoliticians")
     private List<Politician> savePoliticians(@RequestBody List<Politician> politicians) {
         return politicianService.savePoliticians(politicians);
